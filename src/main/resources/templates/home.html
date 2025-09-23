@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestion des employés</title>
+	<link rel="stylesheet" th:href="@{/style.css}" />
+</head>
+<body>
+    <h1>Liste des employés</h1>
+
+    <p th:if="${#lists.isEmpty(employees)}"><em>Aucun employé trouvé.</em></p>
+
+	<div class="employee">
+	    <ul th:if="${!#lists.isEmpty(employees)}">
+	        <li th:each="emp : ${employees}">
+	            <strong th:text="${emp.firstName} + ' ' + ${emp.lastName}">Nom</strong>
+	            (<span th:text="${emp.mail}">email</span>)
+	            <span class="actions">
+	                <a th:href="@{'/employees/' + ${emp.id}}">Modifier</a>
+	                <a th:href="@{'/employees/' + ${emp.id}}" class="delete">Supprimer</a>
+	            </span>
+	        </li>
+	    </ul>
+	</div>
+
+    <div class="actions">
+        <a th:href="@{/createEmployee}">➕ Ajouter un employé</a>
+    </div>
+</body>
+</html>
