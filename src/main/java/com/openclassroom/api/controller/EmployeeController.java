@@ -22,7 +22,7 @@ import com.openclassroom.api.model.Employee;
 import com.openclassroom.api.service.EmployeeService;
 
 
-@CrossOrigin(origins= "https://api-spring-zwr7.onrender.com")
+@CrossOrigin(origins= "https://front-angular-1.onrender.com")
 @Controller
 @RestController
 public class EmployeeController {
