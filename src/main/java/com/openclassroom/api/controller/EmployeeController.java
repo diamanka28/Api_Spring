@@ -1,6 +1,7 @@
 package com.openclassroom.api.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
@@ -16,19 +17,26 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.openclassroom.api.model.Employee;
+import com.openclassroom.api.repository.EmployeeRepository;
 import com.openclassroom.api.service.EmployeeService;
 
 
-@CrossOrigin(origins= "https://front-angular-1.onrender.com")
+@CrossOrigin(origins= {
+	"https://front-angular-1.onrender.com",
+	"http://localhost:4200"
+})
 @Controller
 @RestController
 public class EmployeeController {
 
 	@Autowired
 	EmployeeService employeeService;
+	@Autowired
+	EmployeeRepository employeeRepository;
 	
 	/**
     * Read - Get all employees
@@ -51,6 +59,12 @@ public class EmployeeController {
         return employees; 
 	}
 	
+	// route pour chercher un employé partiellement
+    @GetMapping("/search")
+    public List<Employee> searchEmployees(@RequestParam("q") String query) {
+        return employeeRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(query, query);
+    }
+
 	@GetMapping("/employees/{id}")
 	public Optional<Employee> getEmployee(@PathVariable("id") final long id) {
 		Optional<Employee> e = employeeService.getEmployee(id);
