@@ -108,19 +108,30 @@ public class EmployeeController {
 	}
 	
 	@PutMapping("/employees/{id}")
-	public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee employee) {
+	public ResponseEntity<Employee> updateEmployee(
+	        @PathVariable Long id,
+	        @RequestBody Employee employee) {
+
 	    Optional<Employee> empOpt = employeeService.getEmployee(id);
+
 	    if (empOpt.isEmpty()) {
 	        return ResponseEntity.notFound().build();
 	    }
+
 	    Employee existingEmp = empOpt.get();
+
 	    existingEmp.setFirstName(employee.getFirstName());
 	    existingEmp.setLastName(employee.getLastName());
 	    existingEmp.setMail(employee.getMail());
 	    existingEmp.setPassword(employee.getPassword());
+	    existingEmp.setPhone(employee.getPhone());
+	    // Nouveaux paramètres professionnels
+	    existingEmp.setPosition(employee.getPosition());
+	    existingEmp.setHireDate(employee.getHireDate());
+	    existingEmp.setContractType(employee.getContractType());
+
 	    Employee savedEmp = employeeService.saveEmployee(existingEmp);
+
 	    return ResponseEntity.ok(savedEmp);
 	}
-
-	
 }
